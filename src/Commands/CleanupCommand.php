@@ -37,6 +37,8 @@ class CleanupCommand extends BaseCommand implements Isolatable
         $this->setTries('cleanup');
 
         try {
+            Config::rebind();
+            $this->config = Config::fromArray(config('backup'));
             $backupDestinations = BackupDestinationFactory::createFromArray($this->config);
 
             $cleanupJob = new CleanupJob($backupDestinations, $this->strategy, $disableNotifications);

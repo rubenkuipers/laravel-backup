@@ -25,6 +25,10 @@ class ListCommand extends BaseCommand
 
     public function handle(): int
     {
+
+        Config::rebind();
+        $this->config = Config::fromArray(config('backup'));
+
         $statuses = BackupDestinationStatusFactory::createForMonitorConfig($this->config->monitoredBackups);
 
         $this->displayOverview($statuses)->displayFailures($statuses);
